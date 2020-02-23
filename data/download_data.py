@@ -1,3 +1,26 @@
-import os
+import subprocess
+import yaml
 
-os.system('wget https://query1.finance.yahoo.com/v7/finance/download/CGC?period1=1550917039&period2=1582453039&interval=1d&events=history&crumb=NcjfvLaKudv --user=remote_user --ask-password')
+with open("stock_list.yaml", 'r') as stream:
+    try:
+        data = yaml.safe_load(stream)
+    except yaml.YAMLError as exc:
+        print(exc)
+
+stock_list = data['stocks']
+date = data['date']
+
+
+def download_data(stock_list=stock_list, date=date):
+
+    for ticker in stock_list:
+        process = subprocess.Popen(['./stockdownload_yahoo.sh', ticker, date],
+                                 stdout=subprocess.PIPE,
+                                 stderr=subprocess.PIPE)
+        process_run = process.communicate()
+        if 'saved' in process_run[-1]:
+            print('downloaded : ', ticker)
+
+
+if __name__ == '__main__':
+    download_data()
