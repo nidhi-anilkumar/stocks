@@ -1,10 +1,26 @@
 import subprocess
+import yaml
 
-pot_stock_list = ['CGC', 'CARA']
+with open("stock_list.yaml", 'r') as stream:
+    try:
+        data = yaml.safe_load(stream)
+    except yaml.YAMLError as exc:
+        print(exc)
 
-for ticker in pot_stock_list:
-    date = '20190221'
-    process = subprocess.Popen(['./stockdownload_yahoo.sh', ticker, date],
-                             stdout=subprocess.PIPE,
-                             stderr=subprocess.PIPE)
-    print(process.communicate())
+stock_list = data['stocks']
+date = data['date']
+
+
+def download_data(stock_list=stock_list, date=date):
+
+    for ticker in stock_list:
+        process = subprocess.Popen(['./stockdownload_yahoo.sh', ticker, date],
+                                 stdout=subprocess.PIPE,
+                                 stderr=subprocess.PIPE)
+        process_run = process.communicate()
+        if 'saved' in process_run[-1]:
+            print('downloaded : ', ticker)
+
+
+if __name__ == '__main__':
+    download_data()
