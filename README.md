@@ -1,4 +1,6 @@
 # stocks
+##### Author   : Nidhi Anilkumar
+###### Contact : nidhi.anilkumar@hotmail.com
 ## Requirements :
 * pip install subprocess
 * pip install pyyaml
