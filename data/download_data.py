@@ -19,7 +19,7 @@ def download_data(stock_list=stock_list, date=date):
                                  stderr=subprocess.PIPE)
         process_run = process.communicate()
         if 'saved' in process_run[-1]:
-            print('downloaded : ', ticker)
+            print("downloaded : " + str(ticker))
 
 
 if __name__ == '__main__':
