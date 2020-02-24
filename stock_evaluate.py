@@ -10,13 +10,25 @@ import os
 import matplotlib.pyplot as plt
 
 fig1 = plt.figure(1)#, figsize=[200, 200], dpi=400)
+fig2 = plt.figure(2)#, figsize=[200, 200], dpi=400)
 for file in os.listdir('data'):
     if '.csv' in file:
         data = pd.read_csv(os.path.join('data', file))
+        plt.figure(1)
         plt.plot(data['Date'], data['High'], label=file[:-4])
+        plt.figure(2)
+        plt.plot(data['Date'], data['Low'], label=file[:-4])
 
-plt.legend()
+plt.figure(1)
+fig1.legend()
 plt.xlabel('Date')
 plt.ylabel('High [$]')
-plt.grid()
-plt.savefig('stocks_plot.png')
+plt.title('Date vs High value')
+fig1.savefig('high_plot.png')
+
+plt.figure(2)
+fig2.legend()
+plt.xlabel('Date')
+plt.ylabel('Low [$]')
+plt.title('Date vs Low value')
+fig2.savefig('low_plot.png')
